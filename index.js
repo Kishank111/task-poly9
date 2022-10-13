@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const routes = require("./routes/route");
 const path = require("path");
-require('dotenv').config();
+require("dotenv").config();
 
 mongoose
   .connect(
@@ -20,13 +20,6 @@ mongoose
     console.log(err);
   });
 
-app.use(express.json());
-app.use("/v1", routes);
-app.use(express.static(path.join(__dirname, "build")));
-app.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
-});
-
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -36,7 +29,14 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
   next();
 });
-const port = process.env.PORT || 8080
+app.use(express.json());
+app.use("/v1", routes);
+app.use(express.static(path.join(__dirname, "build")));
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
+const port = process.env.PORT || 8080;
 app.listen(port, () => [
   console.log("server is running on http://localhost:8080"),
 ]);
