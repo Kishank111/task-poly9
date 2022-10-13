@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const app = express();
 const routes = require("./routes/route");
 const path = require("path");
+require('dotenv').config();
 
 mongoose
   .connect(
@@ -35,7 +36,7 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
   next();
 });
-
-app.listen(8080, () => [
+const port = process.env.PORT || 8080
+app.listen(port, () => [
   console.log("server is running on http://localhost:8080"),
 ]);
